@@ -1,0 +1,14 @@
+{
+    "videoId": "",
+    "type":"",
+    "startTime":0.0,
+    "endTime":0.0,
+    "observer":"CSCE636Spring2021-ZhiyuYan-1",
+    "isHuman":false,
+    "confirmedBySomeone":false,
+    "rejectedBySomeone":false,
+    "observation":{
+        "label": "Happy",
+        "labelConfidence": 0.86
+    }
+}

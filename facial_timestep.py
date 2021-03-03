@@ -35,9 +35,12 @@ FER_2013_EMO_DICT = {
     6: "neutral",
 }
 
+with open('JSON_format.json') as f:
+    JSON_templete = json.load(f)
+
 result_path = './saved/result_img/'
 video_path = './youtube_data/video/'
-output = ''
+output = 'CSCE636Spring2021-ZhiyuYan-1.json'
 
 
 def main():
@@ -59,6 +62,9 @@ def main():
     video_list = os.listdir(video_path)
     print(video_list)
 
+    timestep = {}
+    startTime = time.time()
+
     for video_name in video_list:
         print("The video is " + video_name)
         video_item_path = video_path + video_name
@@ -75,8 +81,8 @@ def main():
             print("The number of frame is %d " % FrameNumber)
             print("The rate of video is %d " % rate)
 
-        start_time = time.time()
-        # happy = np.zeros((int(FrameNumber//6) + 1, 1))
+        subStartTime = time.time()
+        
         with torch.no_grad():
             cnt = 0
             while True:
@@ -170,17 +176,10 @@ def main():
                 cv2.imwrite(result_path + video_name + '/' + str(cnt).zfill(5) + '.jpg', frame)
                 cnt += 1
 
-        end_time = time.time()
-        print("Spending time is %s s" % (end_time - start_time))
-        # stride = rate // 6
-        # result = np.zeros((len(happy) // stride + 1, 1))
-        # t = 0
-        # for p in range(0, len(happy), stride):
-        #     result[t] = happy[p:p+stride].mean()
-        #     t += 1
-        # np.save(npy_path + video_name[:-4] + '.npy', result)
-        # print(len(result))
-        # print('================================')
+        subEndTime = time.time()
+        print("Spending time of %s is %s s" % (video_name, subEndTime - subStartTime))
+    endTime = time.time()
+    print("Total spending time is %s s" % (endTime - startTime))
 
 if __name__ == "__main__":
     main()
