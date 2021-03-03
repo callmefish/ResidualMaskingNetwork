@@ -167,7 +167,7 @@ def main():
                         2,
                     )
                 
-                cv2.imwrite(result_path + video_name + '/' + cnt + '.jpg', frame)
+                cv2.imwrite(result_path + video_name + '/' + str(cnt).zfill(5) + '.jpg', frame)
                 cnt += 1
 
         end_time = time.time()

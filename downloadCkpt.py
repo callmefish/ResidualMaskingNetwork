@@ -2,7 +2,9 @@ import os
 
 
 checkpoint_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
-local_checkpoint_path = ".saved/checkpoints/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
+local_checkpoint_path = "./saved/checkpoints/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
+if not os.path.exists(local_checkpoint_path):
+    os.makedirs(local_checkpoint_path)
 
 prototxt_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/deploy.prototxt.txt"
 local_prototxt_path = "deploy.prototxt.txt"
