@@ -64,6 +64,7 @@ def main():
 
     timestep = {}
     startTime = time.time()
+    result = []
 
     for video_name in video_list:
         print("The video is " + video_name)
@@ -77,6 +78,7 @@ def main():
             print(type(rate))
             FrameNumber = vid.get(7)
             duration = FrameNumber / rate
+            step = rate // 8
             print("The duration is %f s" % duration)
             print("The number of frame is %d " % FrameNumber)
             print("The rate of video is %d " % rate)
@@ -85,13 +87,15 @@ def main():
         
         with torch.no_grad():
             cnt = 0
+            happy_time = 0
+            happy_Confidence = []
             while True:
                 ret, frame = vid.read()
                 if frame is None or ret is not True:
                     break
-                # if cnt % 6 != 0:
-                #     cnt += 1
-                #     continue
+                if cnt % step != 0:
+                    cnt += 1
+                    continue
                 
                 frame = np.fliplr(frame).astype(np.uint8)
                 # frame += 50
@@ -107,10 +111,11 @@ def main():
                 )
                 net.setInput(blob)
                 faces = net.forward()
-
+                
+                happy_proba = 0
                 for i in range(0, faces.shape[2]):
                     confidence = faces[0, 0, i, 2]
-                    if confidence < 0.5:
+                    if confidence < 0.7:
                         continue
                     box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
                     start_x, start_y, end_x, end_y = box.astype("int")
@@ -142,13 +147,12 @@ def main():
 
                     output = torch.squeeze(model(face), 0)
                     proba = torch.softmax(output, 0)
-                    # proba = proba.cpu().numpy()
+                    proba = proba.cpu().numpy()
 
                     # happy[cnt//6] = max(happy[cnt//6], proba[3])
 
-                    emo_proba, emo_idx = torch.max(proba, dim=0)
-                    emo_idx = emo_idx.item()
-                    emo_proba = emo_proba.item()
+                    emo_proba, emo_idx = proba[3], 3
+                    happy_proba = max(happy_proba, emo_proba)
 
                     emo_label = FER_2013_EMO_DICT[emo_idx]
 
@@ -172,14 +176,35 @@ def main():
                         (0, 0, 0),
                         2,
                     )
-                
-                cv2.imwrite(result_path + video_name + '/' + str(cnt).zfill(5) + '.jpg', frame)
+
+                video_name_sub = video_name.split('.')[0]
+                if happy_proba > 0.8:
+                    happy_time += 1
+                    happy_Confidence.append(happy_proba)
+                    if happy_time > 4:
+                        happy_time = 0
+                        tmp_json = JSON_templete
+                        tmp_json["videoId"] = video_name_sub
+                        tmp_json["endTime"] = cnt / rate
+                        if tmp_json["endTime"] < 2.0:
+                            tmp_json["endTime"] = 2.0
+                        tmp_json["startTime"] = tmp_json["endTime"] - 2
+                        happy_Confidence.sort(reverse=True)
+                        tmp_json["observation"]["labelConfidence"] = sum(happy_Confidence[:5])/5
+                        result.append(tmp_json)
+                        happy_Confidence = []
+                    elif len(happy_Confidence) == 8:
+                        happy_Confidence = []
+                    cv2.imwrite(result_path + video_name + '/' + str(cnt).zfill(5) + '.jpg', frame)
                 cnt += 1
 
         subEndTime = time.time()
         print("Spending time of %s is %s s" % (video_name, subEndTime - subStartTime))
     endTime = time.time()
     print("Total spending time is %s s" % (endTime - startTime))
+
+    with open(output, 'w') as  f:
+        json.dump(result, f)
 
 if __name__ == "__main__":
     main()
