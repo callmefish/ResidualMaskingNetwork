@@ -8,8 +8,8 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 
-# from imgaug.augmentables.segmaps import SegmentationMapOnImage
-from imgaug.augmentables.segmaps import SegmentationMapsOnImage
+from imgaug.augmentables.segmaps import SegmentationMapOnImage
+# from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 from utils.utils import read_unicode_image as imread
 from skimage.morphology import skeletonize
 
