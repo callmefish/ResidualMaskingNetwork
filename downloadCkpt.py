@@ -1,17 +1,11 @@
 import os
 
 
-checkpoint_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
+checkpoint_url = "https://github.com/callmefish/ResidualMaskingNetwork/releases/download/v1.0.2/resmasking_dropout1_00"
 local_checkpoint_path = "./saved/checkpoints/"
 if not os.path.exists(local_checkpoint_path):
     os.makedirs(local_checkpoint_path)
-local_checkpoint_path = local_checkpoint_path + "Z_resmasking_dropout1_rot30_2019Nov30_13.32"
-
-prototxt_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/deploy.prototxt.txt"
-local_prototxt_path = "deploy.prototxt.txt"
-
-ssd_checkpoint_url = "https://github.com/phamquiluan/ResidualMaskingNetwork/releases/download/v0.0.1/res10_300x300_ssd_iter_140000.caffemodel"
-local_ssd_checkpoint_path = "res10_300x300_ssd_iter_140000.caffemodel"
+local_checkpoint_path = local_checkpoint_path + "resmasking_dropout1_00"
 
 
 def download_checkpoint(remote_url, local_path):
@@ -40,9 +34,7 @@ def download_checkpoint(remote_url, local_path):
 
 
 for remote_path, local_path in [
-    (checkpoint_url, local_checkpoint_path),
-    (prototxt_url, local_prototxt_path),
-    (ssd_checkpoint_url, local_ssd_checkpoint_path),
+    (checkpoint_url, local_checkpoint_path)
 ]:
     if not os.path.exists(local_path):
         print(f"{local_path} does not exists!")

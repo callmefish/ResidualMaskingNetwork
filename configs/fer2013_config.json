@@ -1,5 +1,5 @@
 {
-	"data_path": "saved/data/fer2013",
+	"data_path": "/content/drive/MyDrive/FER2013",
 	"image_size": 224,
 	"in_channels": 3,
 	"num_classes": 7,
@@ -16,7 +16,7 @@
 	"max_plateau_count": 8,
 	"plateau_patience": 2,
 	"steplr": 50,
-	"log_dir": "saved/logs",
-	"checkpoint_dir": "saved/checkpoints",
-	"model_name": "_n"
+	"log_dir": "/content/drive/MyDrive/FER2013/saved/logs",
+	"checkpoint_dir": "/content/drive/MyDrive/FER2013/saved/checkpoints",
+	"model_name": "_zhiyu"
 }

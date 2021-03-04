@@ -38,9 +38,9 @@ FER_2013_EMO_DICT = {
 with open('JSON_format.json') as f:
     JSON_templete = json.load(f)
 
-result_path = './saved/result_img/'
-video_path = './youtube_data/video/'
-output_json = 'CSCE636Spring2021-ZhiyuYan-1.json'
+result_path = '/content/drive/MyDrive/youtube_data/saved/result_img/'
+video_path = '/content/drive/MyDrive/youtube_data/video/'
+output_json = '/content/drive/MyDrive/youtube_data/CSCE636Spring2021-ZhiyuYan-1.json'
 
 
 def main():
@@ -54,7 +54,7 @@ def main():
     # state = torch.load('./saved/checkpoints/densenet121_rot30_2019Nov11_14.23')
     # state = torch.load('./saved/checkpoints/resmasking_dropout1_rot30_2019Nov17_14.33')
     state = torch.load(
-        "./saved/checkpoints/Z_resmasking_dropout1_rot30_2019Nov30_13.32"
+        "./saved/checkpoints/resmasking_dropout1_00"
     )
     model.load_state_dict(state["net"])
     model.eval()
