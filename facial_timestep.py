@@ -40,7 +40,7 @@ with open('JSON_format.json') as f:
 
 result_path = './saved/result_img/'
 video_path = './youtube_data/video/'
-output = 'CSCE636Spring2021-ZhiyuYan-1.json'
+output_json = 'CSCE636Spring2021-ZhiyuYan-1.json'
 
 
 def main():
@@ -183,7 +183,9 @@ def main():
                     happy_Confidence.append(happy_proba)
                     if happy_time > 4:
                         happy_time = 0
-                        tmp_json = JSON_templete
+                        tmp_json = {}
+                        for key, val in JSON_templete.items():
+                            tmp_json[key] = val
                         tmp_json["videoId"] = video_name_sub
                         tmp_json["endTime"] = cnt / rate
                         if tmp_json["endTime"] < 2.0:
@@ -203,7 +205,7 @@ def main():
     endTime = time.time()
     print("Total spending time is %s s" % (endTime - startTime))
 
-    with open(output, 'w') as  f:
+    with open(output_json, 'w') as  f:
         json.dump(result, f)
 
 if __name__ == "__main__":
